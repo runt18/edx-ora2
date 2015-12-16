@@ -491,6 +491,19 @@ class StaffAreaPage(OpenAssessmentPage, AssessmentMixin):
         submit_button.first.click()
         self.wait_for_element_visibility(".staff-info__student__report", "Student report is present")
 
+    def expand_staff_grading_section(self):
+        self.click_staff_toolbar_button("staff-grading")
+        self.q(css=self._bounded_selector(".staff__grade__control")).first.click()
+        self.wait_for_element_visibility("#staff__assessment__rubric__question--0__0", "staff grading is present")
+
+    def submissions_available(self):
+        found = self.q(
+            css=self._bounded_selector(".staff__grade__content")
+        )
+        if found.text[0] == "No more assessments can be graded at this time.":
+            return False
+        return True
+
     @property
     def learner_report_text(self):
         """
@@ -557,11 +570,24 @@ class StaffAreaPage(OpenAssessmentPage, AssessmentMixin):
             css=self._bounded_selector(".staff-info__student__response .ui-toggle-visibility__content")
         ).text[0]
 
-    def submit_assessment(self):
+    def staff_assess(self, options_selected, continue_after=False):
+        for criterion_num, option_num in enumerate(options_selected):
+            sel = "#staff__assessment__rubric__question--{criterion_num}__{option_num}".format(
+                assessment_type="staff",
+                criterion_num=criterion_num,
+                option_num=option_num
+            )
+            self.q(css=self._bounded_selector(sel)).first.click()
+        self.submit_assessment(continue_after)
+
+    def submit_assessment(self, continue_after=False):
         """
         Submit a staff assessment of the problem.
         """
-        self.submit(button_css=".wrapper--staff-assessment .action--submit")
+        filter_text = "Submit Assessment"
+        if continue_after:
+            filter_text += " and Grade Another Learner"
+        self.q(css=self._bounded_selector("button.action--submit")).filter(text=filter_text).first.click()
 
     def cancel_submission(self):
         """
