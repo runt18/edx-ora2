@@ -492,15 +492,21 @@ class StaffAreaPage(OpenAssessmentPage, AssessmentMixin):
         self.wait_for_element_visibility(".staff-info__student__report", "Student report is present")
 
     def expand_staff_grading_section(self):
+        """
+        Clicks the staff grade control to expand staff grading section for use in staff required workflows.
+        """
         self.click_staff_toolbar_button("staff-grading")
         self.q(css=self._bounded_selector(".staff__grade__control")).first.click()
         self.wait_for_element_visibility("#staff__assessment__rubric__question--0__0", "staff grading is present")
 
     def submissions_available(self):
+        """
+        Utility method to check if there are any more learner responses to grade in the staff grading section.
+        """
         found = self.q(
             css=self._bounded_selector(".staff__grade__content")
         )
-        if found.text[0] == "No more assessments can be graded at this time.":
+        if found.text[0] == "No other learner responses are available for grading at this time.":
             return False
         return True
 
@@ -584,9 +590,9 @@ class StaffAreaPage(OpenAssessmentPage, AssessmentMixin):
         """
         Submit a staff assessment of the problem.
         """
-        filter_text = "Submit Assessment"
+        filter_text = "Submit assessment"
         if continue_after:
-            filter_text += " and Grade Another Learner"
+            filter_text += " and continue grading"
         self.q(css=self._bounded_selector("button.action--submit")).filter(text=filter_text).first.click()
 
     def cancel_submission(self):

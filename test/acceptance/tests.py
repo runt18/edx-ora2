@@ -35,7 +35,7 @@ def retry(tries=4, delay=3, backoff=2):
                     return func(*args, **kwargs)
                 except (BrokenPromise, AssertionError) as ex:
                     if attempt_num >= (tries - 1):
-                        raise ex
+                        raise
                     else:
                         print "Test failed with {err}, retrying in {sec} seconds...".format(err=ex, sec=_delay)
                         time.sleep(_delay)
@@ -66,10 +66,10 @@ class OpenAssessmentTest(WebAppTest):
         'file_upload':
             u'courses/{test_course_id}/courseware/'
             u'57a3f9d51d424f6cb922f0d69cba868d/bb563abc989340d8806920902f267ca3/'.format(test_course_id=TEST_COURSE_ID),
-        'full_workflow_override':
+        'full_workflow_staff_override':
             u'courses/{test_course_id}/courseware/'
             u'676026889c884ac1827688750871c825/181ea9ff144c4766be44eb8cb360e34f/'.format(test_course_id=TEST_COURSE_ID),
-        'full_workflow_required':
+        'full_workflow_staff_required':
             u'courses/{test_course_id}/courseware/'
             u'8d9584d242b44343bc270ea5ef04ab03/0b0dcc728abe45138c650732af178afb/'.format(test_course_id=TEST_COURSE_ID),
     }
@@ -783,8 +783,7 @@ class FullWorkflowMixin(object):
             max_attempts: the maximum number of times an additional peer grading should be done
         """
         count = 0
-        peer_page = AssessmentPage("peer-assessment", self.browser, self.problem_loc)
-        while not peer_page.is_complete and count < (max_attempts + 1):
+        while not self.peer_asmnt_page.is_complete and count < (max_attempts + 1):
             count += 1
             self.do_submission_training_self_assessment("extra_{}@looping.com".format(count), None)
             self.do_peer_assessment(options=self.PEER_ASSESSMENT)
@@ -792,7 +791,7 @@ class FullWorkflowMixin(object):
             self.grade_page.visit()
 
         self.assertTrue(
-            peer_page.is_complete,
+            self.peer_asmnt_page.is_complete,
             "Learner still not graded after {} additional attempts".format(max_attempts)
         )
 
@@ -803,8 +802,8 @@ class FullWorkflowBaseTest(OpenAssessmentTest, FullWorkflowMixin):
     """
 
     # Note: this will cause a KeyError if not called from a child class
-    def setUp(self, problem_loc_key="override_plz"):
-        super(FullWorkflowBaseTest, self).setUp(problem_loc_key, staff=True)
+    def setUp(self, problem_type):
+        super(FullWorkflowBaseTest, self).setUp(problem_type, staff=True)
         self.staff_area_page = StaffAreaPage(self.browser, self.problem_loc)
 
     def verify_grade_entries(self, expected_entries):
@@ -849,7 +848,7 @@ class FullWorkflowOverrideTest(FullWorkflowBaseTest):
     Tests of complete workflows, combining multiple required steps together.
     """
     def setUp(self):
-        super(FullWorkflowOverrideTest, self).setUp(problem_loc_key="full_workflow_override")
+        super(FullWorkflowOverrideTest, self).setUp("full_workflow_staff_override")
 
     @retry()
     @attr('acceptance')
@@ -913,8 +912,6 @@ class FullWorkflowOverrideTest(FullWorkflowBaseTest):
         And I see my staff override score
         And all fields in the staff area tool are correct
         """
-        # Note: this test skips self.do_train_self_peer(), as it needs more fine-grained validation and control.
-
         # Create only the initial submission before doing the staff override.
         learner = self.do_submission(self.LEARNER_EMAIL, self.LEARNER_PASSWORD)
 
@@ -968,7 +965,7 @@ class FullWorkflowRequiredTest(FullWorkflowBaseTest):
     Tests of complete workflows, combining multiple required steps together.
     """
     def setUp(self):
-        super(FullWorkflowRequiredTest, self).setUp(problem_loc_key="full_workflow_required")
+        super(FullWorkflowRequiredTest, self).setUp("full_workflow_staff_required")
 
     @retry()
     @attr('acceptance')
@@ -996,6 +993,7 @@ class FullWorkflowRequiredTest(FullWorkflowBaseTest):
         self.assertEqual(self.STAFF_OVERRIDE_SCORE, self.grade_page.wait_for_page().score)
 
         # Note that PEER ASSESSMENT isn't shown here - it gets cut off the page in this case
+        # See TNL-3930 for details and possible fix.
         self.verify_grade_entries([
             [(u"STAFF GRADE - 0 POINTS", u"Poor"), (u"STAFF GRADE - 1 POINT", u"Fair")],
             [(u"YOUR SELF ASSESSMENT", u"Good"), (u"YOUR SELF ASSESSMENT", u"Excellent")],
