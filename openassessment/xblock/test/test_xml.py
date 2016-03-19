@@ -138,7 +138,7 @@ class TestSerializeContent(TestCase):
         try:
             parsed_actual = etree.fromstring(xml)
         except (ValueError, etree.XMLSyntaxError):
-            self.fail("Could not parse output XML:\n{}".format(xml))
+            self.fail("Could not parse output XML:\n{0}".format(xml))
 
         # Assume that the test data XML is valid; if not, this will raise an error
         # instead of a test failure.
@@ -153,7 +153,7 @@ class TestSerializeContent(TestCase):
         expected_elements = [el for el in parsed_expected.getiterator()]
         self.assertEqual(
             len(actual_elements), len(expected_elements),
-            msg=u"Incorrect XML output:\nActual: {}\nExpected: {}".format(xml, pretty_expected)
+            msg=u"Incorrect XML output:\nActual: {0}\nExpected: {1}".format(xml, pretty_expected)
         )
 
         for actual, expected in zip(actual_elements, expected_elements):
@@ -311,13 +311,13 @@ class TestSerializeContent(TestCase):
         for key, val in input_dict.iteritems():
 
             # Mutation #1: Remove the key
-            print "== Removing key {}".format(key)
+            print "== Removing key {0}".format(key)
             yield {k:v for k, v in input_dict.iteritems() if k != key}
 
             if isinstance(val, dict):
 
                 # Mutation #2: Empty dict
-                print "== Emptying dict {}".format(key)
+                print "== Emptying dict {0}".format(key)
                 yield self._mutate_dict(input_dict, key, dict())
 
                 # Mutation #3-5: value mutations
@@ -330,7 +330,7 @@ class TestSerializeContent(TestCase):
 
             elif isinstance(val, list):
                 # Mutation #2: Empty list
-                print "== Emptying list {}".format(key)
+                print "== Emptying list {0}".format(key)
                 yield self._mutate_dict(input_dict, key, list())
 
                 # Mutation #3-5: value mutations
@@ -386,13 +386,13 @@ class TestSerializeContent(TestCase):
         Yields:
             dict
         """
-        print "== None value {}".format(key)
+        print "== None value {0}".format(key)
         yield self._mutate_dict(input_dict, key, None)
 
-        print "== Unicode value {}".format(key)
+        print "== Unicode value {0}".format(key)
         yield self._mutate_dict(input_dict, key, u"\u9731")
 
-        print "== int value {}".format(key)
+        print "== int value {0}".format(key)
         yield self._mutate_dict(input_dict, key, 0)
 
     def _mutate_dict(self, input_dict, key, new_val):

@@ -49,7 +49,7 @@ class CsvWriterTest(TransactionCacheResetTest):
                     actual_row = None
                 self.assertEqual(
                     actual_row, expected_row,
-                    msg="Output name: {}".format(output_name)
+                    msg="Output name: {0}".format(output_name)
                 )
 
             # Check for extra rows
@@ -59,19 +59,19 @@ class CsvWriterTest(TransactionCacheResetTest):
                 extra_row = None
 
             if extra_row is not None:
-                self.fail(u"CSV contains extra row: {}".format(extra_row))
+                self.fail(u"CSV contains extra row: {0}".format(extra_row))
 
     def test_many_submissions(self):
         # Create a lot of submissions
         num_submissions = 234
         for index in range(num_submissions):
             student_item = {
-                'student_id': "test_user_{}".format(index),
+                'student_id': "test_user_{0}".format(index),
                 'course_id': 'test_course',
                 'item_id': 'test_item',
                 'item_type': 'openassessment',
             }
-            submission_text = "test submission {}".format(index)
+            submission_text = "test submission {0}".format(index)
             submission = sub_api.create_submission(student_item, submission_text)
             workflow_api.create_workflow(submission['uuid'], ['peer', 'self'])
 
@@ -150,5 +150,5 @@ class CsvWriterTest(TransactionCacheResetTest):
         fixture_path = os.path.join(
             os.path.dirname(__file__), 'data', fixture_relpath
         )
-        print "Loading database fixtures from {}".format(fixture_path)
+        print "Loading database fixtures from {0}".format(fixture_path)
         call_command('loaddata', fixture_path)

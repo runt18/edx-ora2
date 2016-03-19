@@ -201,7 +201,7 @@ def reschedule_grading_tasks(course_id, item_id):
                     found_classifiers = workflow.classifier_set
                     maintained_classifiers[workflow_description] = found_classifiers
                 else:
-                    msg = u"No applicable classifiers yet exist for essay with uuid='{}'".format(workflow.uuid)
+                    msg = u"No applicable classifiers yet exist for essay with uuid='{0}'".format(workflow.uuid)
                     logger.log(msg)
             except DatabaseError as ex:
                 msg = (
@@ -215,7 +215,7 @@ def reschedule_grading_tasks(course_id, item_id):
             try:
                 workflow.save()
                 logger.info(
-                    u"Classifiers were successfully assigned to grading workflow with uuid={}".format(workflow.uuid)
+                    u"Classifiers were successfully assigned to grading workflow with uuid={0}".format(workflow.uuid)
                 )
             except DatabaseError as ex:
                 msg = (
@@ -230,7 +230,7 @@ def reschedule_grading_tasks(course_id, item_id):
             try:
                 grade_essay.apply_async(args=[workflow.uuid])
                 logger.info(
-                    u"Rescheduling of grading was successful for grading workflow with uuid='{}'".format(workflow.uuid)
+                    u"Rescheduling of grading was successful for grading workflow with uuid='{0}'".format(workflow.uuid)
                 )
             except ANTICIPATED_CELERY_ERRORS as ex:
                 msg = (
@@ -255,7 +255,7 @@ def reschedule_grading_tasks(course_id, item_id):
     if failures > 0:
         try:
             raise AIGradingInternalError(
-                u"In an attempt to reschedule grading workflows, there were {} failures.".format(failures)
+                u"In an attempt to reschedule grading workflows, there were {0} failures.".format(failures)
             )
         except AIGradingInternalError as ex:
             raise reschedule_grading_tasks.retry()
@@ -299,8 +299,8 @@ def _log_start_reschedule_grading(course_id=None, item_id=None):
         item_id (unicode): the item id to tag with the log start
     """
     tags = [
-        u"course_id:{}".format(course_id),
-        u"item_id:{}".format(item_id),
+        u"course_id:{0}".format(course_id),
+        u"item_id:{0}".format(item_id),
     ]
     dog_stats_api.increment('openassessment.assessment.ai_task.AIRescheduleGrading.scheduled_count', tags=tags)
 
@@ -323,9 +323,9 @@ def _log_complete_reschedule_grading(course_id=None, item_id=None, seconds=-1, s
         success (bool): indicates whether or not all attempts to reschedule were successful
     """
     tags = [
-        u"course_id:{}".format(course_id),
-        u"item_id:{}".format(item_id),
-        u"success:{}".format(success)
+        u"course_id:{0}".format(course_id),
+        u"item_id:{0}".format(item_id),
+        u"success:{0}".format(success)
     ]
 
     dog_stats_api.histogram('openassessment.assessment.ai_task.AIRescheduleGrading.turnaround_time', seconds, tags=tags)

@@ -428,11 +428,11 @@ class AssessmentWorkflow(TimeStampedModel, StatusModel):
             # Cancel the related step's workflow.
             workflow.cancel(assessment_requirements)
         except (cls.DoesNotExist, cls.MultipleObjectsReturned):
-            error_message = u"Error finding workflow for submission UUID {}.".format(submission_uuid)
+            error_message = u"Error finding workflow for submission UUID {0}.".format(submission_uuid)
             logger.exception(error_message)
             raise AssessmentWorkflowError(error_message)
         except DatabaseError:
-            error_message = u"Error creating assessment workflow cancellation for submission UUID {}.".format(
+            error_message = u"Error creating assessment workflow cancellation for submission UUID {0}.".format(
                 submission_uuid)
             logger.exception(error_message)
             raise AssessmentWorkflowInternalError(error_message)
@@ -461,7 +461,7 @@ class AssessmentWorkflow(TimeStampedModel, StatusModel):
         except cls.DoesNotExist:
             return None
         except DatabaseError:
-            error_message = u"Error finding workflow for submission UUID {}.".format(submission_uuid)
+            error_message = u"Error finding workflow for submission UUID {0}.".format(submission_uuid)
             logger.exception(error_message)
             raise AssessmentWorkflowError(error_message)
 
@@ -591,7 +591,7 @@ def update_workflow_async(sender, **kwargs):
         workflow = AssessmentWorkflow.objects.get(submission_uuid=submission_uuid)
         workflow.update_from_assessments(None)
     except AssessmentWorkflow.DoesNotExist:
-        msg = u"Could not retrieve workflow for submission with UUID {}".format(submission_uuid)
+        msg = u"Could not retrieve workflow for submission with UUID {0}".format(submission_uuid)
         logger.exception(msg)
     except DatabaseError:
         msg = (

@@ -305,7 +305,7 @@ class SubmissionMixin(object):
             if key:
                 url = file_upload_api.get_download_url(key)
         except FileUploadError:
-            logger.exception("Unable to generate download url for file key {}".format(key))
+            logger.exception("Unable to generate download url for file key {0}".format(key))
         return url
 
     @staticmethod

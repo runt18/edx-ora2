@@ -33,7 +33,7 @@ class SelfAssessmentMixin(object):
         try:
             path, context = self.self_path_and_context()
         except:
-            msg = u"Could not retrieve self assessment for submission {}".format(self.submission_uuid)
+            msg = u"Could not retrieve self assessment for submission {0}".format(self.submission_uuid)
             logger.exception(msg)
             return self.render_error(self._(u"An unexpected error occurred."))
         else:

@@ -152,7 +152,7 @@ class StudentTrainingAssessmentTest(CacheResetTest):
         errors = training_api.validate_training_examples(
             data['rubric'], data['examples']
         )
-        msg = u"Expected errors {} but got {}".format(data['errors'], errors)
+        msg = u"Expected errors {0} but got {1}".format(data['errors'], errors)
         self.assertItemsEqual(errors, data['errors'], msg=msg)
 
     def test_is_finished_no_workflow(self):

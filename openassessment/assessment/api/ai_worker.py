@@ -131,7 +131,7 @@ def create_assessment(grading_workflow_uuid, criterion_scores):
                 u"(algorithm ID {algorithm_id})"
             ).format(workflow_uuid=workflow.uuid, algorithm_id=workflow.algorithm_id))
         else:
-            msg = u"Grading workflow with UUID {} is already marked complete".format(workflow.uuid)
+            msg = u"Grading workflow with UUID {0} is already marked complete".format(workflow.uuid)
             logger.info(msg)
     except DatabaseError as ex:
         msg = (
@@ -254,7 +254,7 @@ def create_classifiers(training_workflow_uuid, classifier_set):
         # If the task is executed multiple times, the classifier set may already
         # have been created.  If so, log it, then return immediately.
         if workflow.is_complete:
-            msg = u"AI training workflow with UUID {} already has trained classifiers.".format(workflow.uuid)
+            msg = u"AI training workflow with UUID {0} already has trained classifiers.".format(workflow.uuid)
             logger.info(msg)
         else:
             workflow.complete(classifier_set)

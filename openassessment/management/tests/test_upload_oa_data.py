@@ -36,12 +36,12 @@ class UploadDataTest(CacheResetTest):
         # the progress indicator code.
         for index in range(50):
             student_item = {
-                'student_id': "test_user_{}".format(index),
+                'student_id': "test_user_{0}".format(index),
                 'course_id': self.COURSE_ID,
                 'item_id': 'test_item',
                 'item_type': 'openassessment',
             }
-            submission_text = "test submission {}".format(index)
+            submission_text = "test submission {0}".format(index)
             submission = sub_api.create_submission(student_item, submission_text)
             workflow_api.create_workflow(submission['uuid'], ['peer', 'self'])
 
@@ -69,4 +69,4 @@ class UploadDataTest(CacheResetTest):
 
         # Expect that we generated a URL for the bucket
         url = cmd.history[0]['url']
-        self.assertIn("https://{}".format(self.BUCKET_NAME), url)
+        self.assertIn("https://{0}".format(self.BUCKET_NAME), url)

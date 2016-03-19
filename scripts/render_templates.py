@@ -106,7 +106,7 @@ def render_templates(root_dir, template_json):
             with open(output_path, 'w') as output_file:
                 output_file.write(rendered.encode('utf-8'))
         except IOError:
-            print "Could not write rendered template to file: {}".format(output_path)
+            print "Could not write rendered template to file: {0}".format(output_path)
             sys.exit(1)
 
 
@@ -123,11 +123,11 @@ def main():
             root_dir = os.path.dirname(sys.argv[1])
             render_templates(root_dir, json.load(template_json))
     except IOError as ex:
-        print u"Could not open template description file: {}".format(sys.argv[1])
+        print u"Could not open template description file: {0}".format(sys.argv[1])
         print(ex)
         sys.exit(1)
     except ValueError as ex:
-        print u"Could not parse template description as JSON: {}".format(sys.argv[1])
+        print u"Could not parse template description as JSON: {0}".format(sys.argv[1])
         print(ex)
         sys.exit(1)
 

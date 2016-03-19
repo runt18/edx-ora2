@@ -88,11 +88,11 @@ def create_workflow(submission_uuid, steps, on_init_params=None):
     except sub_api.SubmissionInternalError as err:
         logger.error(err)
         raise AssessmentWorkflowInternalError(
-            u"retrieving submission {} failed with unknown error: {}"
+            u"retrieving submission {0} failed with unknown error: {1}"
             .format(submission_uuid, err)
         )
     except DatabaseError:
-        err_msg = u"Could not create assessment workflow for submission UUID: {}".format(submission_uuid)
+        err_msg = u"Could not create assessment workflow for submission UUID: {0}".format(submission_uuid)
         logger.exception(err_msg)
         raise AssessmentWorkflowInternalError(err_msg)
     except:
@@ -270,7 +270,7 @@ def update_from_assessments(submission_uuid, assessment_requirements):
         ).format(uuid=submission_uuid, reqs=assessment_requirements))
         return _serialized_with_details(workflow, assessment_requirements)
     except PeerAssessmentError as err:
-        err_msg = u"Could not update assessment workflow: {}".format(err)
+        err_msg = u"Could not update assessment workflow: {0}".format(err)
         logger.exception(err_msg)
         raise AssessmentWorkflowInternalError(err_msg)
 
@@ -349,12 +349,12 @@ def _get_workflow_model(submission_uuid):
         workflow = AssessmentWorkflow.objects.get(submission_uuid=submission_uuid)
     except AssessmentWorkflow.DoesNotExist:
         raise AssessmentWorkflowNotFoundError(
-            u"No assessment workflow matching submission_uuid {}".format(submission_uuid)
+            u"No assessment workflow matching submission_uuid {0}".format(submission_uuid)
         )
     except Exception as exc:
         # Something very unexpected has just happened (like DB misconfig)
         err_msg = (
-            "Could not get assessment workflow with submission_uuid {} due to error: {}"
+            "Could not get assessment workflow with submission_uuid {0} due to error: {1}"
             .format(submission_uuid, exc)
         )
         logger.exception(err_msg)
@@ -407,7 +407,7 @@ def get_assessment_workflow_cancellation(submission_uuid):
         workflow_cancellation = AssessmentWorkflowCancellation.get_latest_workflow_cancellation(submission_uuid)
         return AssessmentWorkflowCancellationSerializer(workflow_cancellation).data if workflow_cancellation else None
     except DatabaseError:
-        error_message = u"Error finding assessment workflow cancellation for submission UUID {}.".format(submission_uuid)
+        error_message = u"Error finding assessment workflow cancellation for submission UUID {0}.".format(submission_uuid)
         logger.exception(error_message)
         raise PeerAssessmentInternalError(error_message)
 

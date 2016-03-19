@@ -447,7 +447,7 @@ class Assessment(models.Model):
             return float(self.points_earned) / self.points_possible
 
     def __unicode__(self):
-        return u"Assessment {}".format(self.id)
+        return u"Assessment {0}".format(self.id)
 
     @classmethod
     def create(cls, rubric, scorer_id, submission_uuid, score_type, feedback=None, scored_at=None):
@@ -577,7 +577,7 @@ class Assessment(models.Model):
 
         # Generate a cache key that represents all the assessments we're being
         # asked to grab scores from (comma separated list of assessment IDs)
-        cache_key = "assessments.scores_by_criterion.{}".format(
+        cache_key = "assessments.scores_by_criterion.{0}".format(
             ",".join(str(assessment.id) for assessment in assessments)
         )
         scores = cache.get(cache_key)
