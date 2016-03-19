@@ -198,7 +198,7 @@ def reschedule_training_tasks(course_id, item_id):
         try:
             train_classifiers.apply_async(args=[target_workflow.uuid])
             logger.info(
-                u"Rescheduling of training was successful for workflow with uuid{}".format(target_workflow.uuid)
+                u"Rescheduling of training was successful for workflow with uuid{0}".format(target_workflow.uuid)
             )
         except ANTICIPATED_CELERY_ERRORS as ex:
             msg = (
@@ -277,8 +277,8 @@ def _log_start_reschedule_training(course_id=None, item_id=None):
         item_id (unicode): the item id to tag with the log start
     """
     tags = [
-        u"course_id:{}".format(course_id),
-        u"item_id:{}".format(item_id),
+        u"course_id:{0}".format(course_id),
+        u"item_id:{0}".format(item_id),
     ]
     dog_stats_api.increment('openassessment.assessment.ai_task.AIRescheduleTraining.scheduled_count', tags)
 
@@ -300,9 +300,9 @@ def _log_complete_reschedule_training(course_id=None, item_id=None, seconds=-1, 
         success (bool): indicates whether or not all attempts to reschedule were successful
     """
     tags = [
-        u"course_id:{}".format(course_id),
-        u"item_id:{}".format(item_id),
-        u"success:{}".format(success)
+        u"course_id:{0}".format(course_id),
+        u"item_id:{0}".format(item_id),
+        u"success:{0}".format(success)
     ]
 
     dog_stats_api.histogram('openassessment.assessment.ai_task.AIRescheduleTraining.turnaround_time', seconds,tags)

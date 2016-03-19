@@ -533,7 +533,7 @@ def parse_assessments_xml(assessments_root):
                 raise UpdateFromXmlError('Example-based assessment cannot have a start date')
 
             # Other assessment types CAN have a start date
-            parsed_start = parse_date(assessment.get('start'), name="{} start date".format(assessment_dict['name']))
+            parsed_start = parse_date(assessment.get('start'), name="{0} start date".format(assessment_dict['name']))
 
             if parsed_start is not None:
                 assessment_dict['start'] = parsed_start
@@ -548,7 +548,7 @@ def parse_assessments_xml(assessments_root):
                 raise UpdateFromXmlError('Example-based assessment cannot have a due date')
 
             # Other assessment types CAN have a due date
-            parsed_due = parse_date(assessment.get('due'), name="{} due date".format(assessment_dict['name']))
+            parsed_due = parse_date(assessment.get('due'), name="{0} due date".format(assessment_dict['name']))
 
             if parsed_due is not None:
                 assessment_dict['due'] = parsed_due

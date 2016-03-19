@@ -26,14 +26,14 @@ class RubricAdmin(admin.ModelAdmin):
         """Short description of criteria for presenting in a list."""
         rubric_data = RubricSerializer.serialized_from_cache(rubric_obj)
         return u", ".join(
-            u"{} - {}: {}".format(criterion["name"], criterion['label'], criterion["points_possible"])
+            u"{0} - {1}: {2}".format(criterion["name"], criterion['label'], criterion["points_possible"])
             for criterion in rubric_data["criteria"]
         )
 
     def data(self, rubric_obj):
         """Full JSON string of rubric, indented and HTML formatted."""
         rubric_data = RubricSerializer.serialized_from_cache(rubric_obj)
-        return u"<pre>\n{}\n</pre>".format(
+        return u"<pre>\n{0}\n</pre>".format(
             html.escape(json.dumps(rubric_data, sort_keys=True, indent=4))
         )
     data.allow_tags = True
@@ -78,7 +78,7 @@ class AssessmentAdmin(admin.ModelAdmin):
             'admin:assessment_rubric_change',
             args=[assessment_obj.rubric.id]
         )
-        return u'<a href="{}">{}</a>'.format(
+        return u'<a href="{0}">{1}</a>'.format(
             url, assessment_obj.rubric.content_hash
         )
     rubric_link.allow_tags = True
@@ -88,7 +88,7 @@ class AssessmentAdmin(admin.ModelAdmin):
     def parts_summary(self, assessment_obj):
         return "<br/>".join(
             html.escape(
-                u"{}/{} - {} - {}: {} - {} - {}".format(
+                u"{0}/{1} - {2} - {3}: {4} - {5} - {6}".format(
                     part.points_earned,
                     part.points_possible,
                     part.criterion.name,
@@ -113,7 +113,7 @@ class AssessmentFeedbackAdmin(admin.ModelAdmin):
 
     def assessments_by(self, assessment_feedback):
         links = [
-            u'<a href="{}">{}</a>'.format(
+            u'<a href="{0}">{1}</a>'.format(
                 reverse('admin:assessment_assessment_change', args=[asmt.id]),
                 html.escape(asmt.scorer_id)
             )

@@ -50,7 +50,7 @@ class StudentTrainingMixin(object):
         try:
             path, context = self.training_path_and_context()
         except:  # pylint:disable=W0702
-            msg = u"Could not render Learner Training step for submission {}.".format(self.submission_uuid)
+            msg = u"Could not render Learner Training step for submission {0}.".format(self.submission_uuid)
             logger.exception(msg)
             return self.render_error(self._(u"An unexpected error occurred."))
         else:

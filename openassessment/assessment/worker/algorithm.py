@@ -33,7 +33,7 @@ class UnknownAlgorithm(AIAlgorithmError):
     Algorithm ID not found in the configuration.
     """
     def __init__(self, algorithm_id):
-        msg = u"Could not find algorithm \"{}\" in the configuration.".format(algorithm_id)
+        msg = u"Could not find algorithm \"{0}\" in the configuration.".format(algorithm_id)
         super(UnknownAlgorithm, self).__init__(msg)
 
 

@@ -24,7 +24,7 @@ class Command(BaseCommand):
     args = '<COURSE_ID> <S3_BUCKET_NAME>'
 
     OUTPUT_CSV_PATHS = {
-        output_name: "{}.csv".format(output_name)
+        output_name: "{0}.csv".format(output_name)
         for output_name in CsvWriter.MODELS
     }
 
@@ -60,20 +60,20 @@ class Command(BaseCommand):
 
         """
         if len(args) < 2:
-            raise CommandError(u'Usage: upload_oa_data {}'.format(self.args))
+            raise CommandError(u'Usage: upload_oa_data {0}'.format(self.args))
 
         course_id, s3_bucket = args[0].decode('utf-8'), args[1].decode('utf-8')
         csv_dir = tempfile.mkdtemp()
 
         try:
-            print u"Generating CSV files for course '{}'".format(course_id)
+            print u"Generating CSV files for course '{0}'".format(course_id)
             self._dump_to_csv(course_id, csv_dir)
-            print u"Creating archive of CSV files in {}".format(csv_dir)
+            print u"Creating archive of CSV files in {0}".format(csv_dir)
             archive_path = self._create_archive(csv_dir)
-            print u"Uploading {} to {}/{}".format(archive_path, s3_bucket, course_id)
+            print u"Uploading {0} to {1}/{2}".format(archive_path, s3_bucket, course_id)
             url = self._upload(course_id, archive_path, s3_bucket)
             print "== Upload successful =="
-            print u"Download URL (expires in {} hours):\n{}".format(self.URL_EXPIRATION_HOURS, url)
+            print u"Download URL (expires in {0} hours):\n{1}".format(self.URL_EXPIRATION_HOURS, url)
         finally:
             # Assume that the archive was created in the directory,
             # so to clean up we just need to delete the directory.
@@ -108,7 +108,7 @@ class Command(BaseCommand):
             unicode: Absolute path to the archive.
 
         """
-        tarball_name = u"{}.tar.gz".format(
+        tarball_name = u"{0}.tar.gz".format(
             datetime.datetime.utcnow().strftime("%Y-%m-%dT%H_%M")
         )
         tarball_path = os.path.join(dir_path, tarball_name)

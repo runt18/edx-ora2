@@ -336,7 +336,7 @@ class StaffAreaMixin(object):
         except AIError as ex:
             return {
                 'success': False,
-                'msg': self._(u"An error occurred while rescheduling tasks: {}".format(ex))
+                'msg': self._(u"An error occurred while rescheduling tasks: {0}".format(ex))
             }
 
     @XBlock.json_handler

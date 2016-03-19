@@ -108,7 +108,7 @@ class Command(BaseCommand):
 
         """
         if len(args) < 4:
-            raise CommandError(u"Usage: simulate_ai_grading_error {}".format(self.args))
+            raise CommandError(u"Usage: simulate_ai_grading_error {0}".format(self.args))
 
         # Parse arguments
         course_id = args[0].decode('utf-8')
@@ -132,7 +132,7 @@ class Command(BaseCommand):
         classifier_set = AIClassifierSet.create_classifier_set(
             classifier_data, rubric, algorithm_id, course_id, item_id
         )
-        print u"Successfully created classifier set with id {}".format(classifier_set.pk)
+        print u"Successfully created classifier set with id {0}".format(classifier_set.pk)
 
         # Create submissions and grading workflows
         for num in range(num_submissions):

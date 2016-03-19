@@ -52,7 +52,7 @@ class AssessmentApiLoadError(AssessmentWorkflowInternalError):
     The assessment API could not be loaded.
     """
     def __init__(self, assessment_name, api_path):
-        msg = u"Could not load assessment API for {} from {}".format(
+        msg = u"Could not load assessment API for {0} from {1}".format(
             assessment_name, api_path
         )
         super(AssessmentApiLoadError, self).__init__(msg)

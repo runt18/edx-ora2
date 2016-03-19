@@ -235,7 +235,7 @@ def get_assessment_scores_by_criteria(submission_uuid):
         scores = Assessment.scores_by_criterion(assessments)
         return Assessment.get_median_score_dict(scores)
     except DatabaseError:
-        error_message = u"Error getting example-based assessment scores for {}".format(submission_uuid)
+        error_message = u"Error getting example-based assessment scores for {0}".format(submission_uuid)
         logger.exception(error_message)
         raise AIGradingInternalError(error_message)
 

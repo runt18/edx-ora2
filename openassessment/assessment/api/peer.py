@@ -695,7 +695,7 @@ def get_submission_to_assess(submission_uuid, graded_by):
             raise PeerAssessmentWorkflowError(error_message)
     else:
         logger.info(
-            u"No submission found for {} to assess ({}, {})"
+            u"No submission found for {0} to assess ({1}, {2})"
             .format(
                 workflow.student_id,
                 workflow.course_id,
@@ -791,7 +791,7 @@ def get_assessment_feedback(submission_uuid):
         return None
     except DatabaseError:
         error_message = (
-            u"An error occurred retrieving assessment feedback for {}."
+            u"An error occurred retrieving assessment feedback for {0}."
             .format(submission_uuid)
         )
         logger.exception(error_message)
@@ -849,7 +849,7 @@ def set_assessment_feedback(feedback_dict):
         assessments = PeerWorkflowItem.get_scored_assessments(submission_uuid)
         feedback.assessments.add(*assessments)
     except DatabaseError:
-        msg = u"Error occurred while creating or updating feedback on assessment: {}".format(feedback_dict)
+        msg = u"Error occurred while creating or updating feedback on assessment: {0}".format(feedback_dict)
         logger.exception(msg)
         raise PeerAssessmentInternalError(msg)
 
@@ -930,7 +930,7 @@ def _log_workflow(submission_uuid, workflow):
             assessment.
     """
     logger.info(
-        u"Retrieved submission {} ({}, {}) to be assessed by {}"
+        u"Retrieved submission {0} ({1}, {2}) to be assessed by {3}"
         .format(
             submission_uuid,
             workflow.course_id,

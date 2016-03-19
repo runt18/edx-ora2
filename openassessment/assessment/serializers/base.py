@@ -87,7 +87,7 @@ class RubricSerializer(serializers.ModelSerializer):
 
         # Check the external cache (e.g. memcached)
         rubric_dict_cache_key = (
-            "RubricSerializer.serialized_from_cache.{}"
+            "RubricSerializer.serialized_from_cache.{0}"
             .format(rubric.content_hash)
         )
         rubric_dict = cache.get(rubric_dict_cache_key)
@@ -190,7 +190,7 @@ def full_assessment_dict(assessment, rubric_dict=None):
     Returns:
         dict with keys 'rubric' (serialized Rubric model) and 'parts' (serialized assessment parts)
     """
-    assessment_cache_key = "assessment.full_assessment_dict.{}.{}.{}".format(
+    assessment_cache_key = "assessment.full_assessment_dict.{0}.{1}.{2}".format(
         assessment.id, assessment.submission_uuid, assessment.scored_at.isoformat()
     )
     assessment_dict = cache.get(assessment_cache_key)

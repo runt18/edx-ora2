@@ -37,7 +37,7 @@ class AssessmentFeedbackOption(models.Model):
         app_label = "assessment"
 
     def __unicode__(self):
-        return u'"{}"'.format(self.text)
+        return u'"{0}"'.format(self.text)
 
 
 class AssessmentFeedback(models.Model):

@@ -257,12 +257,12 @@ def get_assessment(submission_uuid):
 
     if not serialized_assessments:
         logger.info(
-            u"No self-assessment found for submission {}".format(submission_uuid)
+            u"No self-assessment found for submission {0}".format(submission_uuid)
         )
         return None
 
     serialized_assessment = serialized_assessments[0]
-    logger.info(u"Retrieved self-assessment for submission {}".format(submission_uuid))
+    logger.info(u"Retrieved self-assessment for submission {0}".format(submission_uuid))
 
     return serialized_assessment
 
