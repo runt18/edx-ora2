@@ -213,7 +213,7 @@ class TestFileUploadServiceWithFilesystemBackend(TestCase):
         metadata = json.load(open(metadata_path))
 
         self.assertIsNotNone(metadata_path)
-        self.assertTrue(os.path.exists(metadata_path), "No metadata found at %s" % metadata_path)
+        self.assertTrue(os.path.exists(metadata_path), "No metadata found at {0!s}".format(metadata_path))
         self.assertIn("Content-Type", metadata)
         self.assertIn("Date", metadata)
         self.assertIn("Content-MD5", metadata)
@@ -238,7 +238,7 @@ class TestFileUploadServiceWithFilesystemBackend(TestCase):
         )
         self.assertEqual(self.content_type, download_response.get('Content-Type'))
         self.assertIn("foobar content", download_response.content)
-        self.assertTrue(os.path.exists(file_path), "File %s does not exist" % file_path)
+        self.assertTrue(os.path.exists(file_path), "File {0!s} does not exist".format(file_path))
         with open(file_path) as f:
             self.assertEqual(self.content.read(), f.read())
 
