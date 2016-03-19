@@ -47,7 +47,7 @@ class Command(BaseCommand):
         pw_dt_after = datetime.datetime.now()
         time_taken = pw_dt_after - pw_dt_before
 
-        print "Time taken by (find_active_assessments) method Is:  %s " % time_taken
+        print "Time taken by (find_active_assessments) method Is:  {0!s} ".format(time_taken)
 
         ####  get_submission_for_review ####
 
@@ -59,7 +59,7 @@ class Command(BaseCommand):
         pw_dt_after = datetime.datetime.now()
         time_taken = pw_dt_after - pw_dt_before
 
-        print "Time taken by (get_submission_for_review) method Is:  %s " % time_taken
+        print "Time taken by (get_submission_for_review) method Is:  {0!s} ".format(time_taken)
 
         ####   get_submission_for_over_grading ####
 
@@ -71,4 +71,4 @@ class Command(BaseCommand):
         pw_dt_after = datetime.datetime.now()
         time_taken = pw_dt_after - pw_dt_before
 
-        print "Time taken by (get_submission_for_over_grading) method Is:  %s " % time_taken
+        print "Time taken by (get_submission_for_over_grading) method Is:  {0!s} ".format(time_taken)

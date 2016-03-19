@@ -12,4 +12,4 @@ def get_backend():
     elif backend_setting == "filesystem":
         return filesystem.Backend()
     else:
-        raise ValueError("Invalid ORA2_FILEUPLOAD_BACKEND setting value: %s" % backend_setting)
+        raise ValueError("Invalid ORA2_FILEUPLOAD_BACKEND setting value: {0!s}".format(backend_setting))
