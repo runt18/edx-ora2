@@ -296,7 +296,7 @@ class PeerAssessmentMixin(object):
 
         return peer_submission
 
-    def _get_server_and_client_submission_uuids(self, data={}):
+    def _get_server_and_client_submission_uuids(self, data=None):
         """
         Retrieve the server and client submission_uuids
 
@@ -310,6 +310,8 @@ class PeerAssessmentMixin(object):
         Returns:
             tuple: (uuid_server, uuid_client)
         """
+        if data is None:
+            data = {}
         student_item = self.get_student_item_dict()
         assessment = self.get_assessment_module('peer-assessment')
         submission = self.get_peer_submission(student_item, assessment) or {}
